@@ -8,7 +8,7 @@ import org.json.JSONObject;
 public class HasNewLikedPost implements ITrigger {
 
     private Facebook mFacebook;
-    private Like mLastLiked = null;
+    private JSONObject mOldLiked = new JSONObject();
 
     public HasNewLikedPost(Facebook fb) {
         mFacebook = fb;
@@ -23,12 +23,14 @@ public class HasNewLikedPost implements ITrigger {
         try {
             ResponseList<Like> userLikes = mFacebook.getUserLikes();
             Like liked = userLikes.get(0);
-            if (mLastLiked == null)
-                mLastLiked = liked;
-            else if (!liked.getId().equals(mLastLiked.getId())) {
-                mLastLiked = liked;
-                return "Page liked on Facebook : https://facebook.com/" + mLastLiked.getId();
+            if (mOldLiked.has(token)) {
+                if (!liked.getId().equals(mOldLiked.getString(token))) {
+                    mOldLiked.put(token, liked.getId());
+                    return "Page " + liked.getName() + " liked on Facebook : https://facebook.com/" + liked.getId();
+                }
             }
+            else
+                mOldLiked.put(token, liked.getId());
         } catch (FacebookException e) {
             e.printStackTrace();
             return "";

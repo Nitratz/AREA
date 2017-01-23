@@ -37,4 +37,9 @@ public class PostMessageAction implements IAction {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public String getType() {
+        return "Post un message sur All Company";
+    }
 }

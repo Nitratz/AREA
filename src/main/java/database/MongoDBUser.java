@@ -25,7 +25,6 @@ public class MongoDBUser implements IUser {
     }
 
     public static List<Document> getUsers() {
-        MongoDBUser ret = new MongoDBUser();
         MongoDatabase database = Application.mongoClient.getDatabase("Area");
         MongoCollection<Document> collection = database.getCollection("Users");
         com.mongodb.client.FindIterable<Document> cursor = collection.find();
@@ -138,9 +137,9 @@ public class MongoDBUser implements IUser {
     public void DeleteArea(String Area) {
         MongoDatabase database = Application.mongoClient.getDatabase("Area");
         MongoCollection<Document> collection = database.getCollection("Users");
-        JSONArray JAreas = userdoc.get("Areas", JSONArray.class);
-        for (int i = 0; i < JAreas.length(); i++) {
-            if (JAreas.getJSONObject(i).getString("ID").equals(Area)) {
+        List<Document> JAreas = userdoc.get("Areas", List.class);
+        for (int i = 0; i < JAreas.size(); i++) {
+            if (JAreas.get(i).getString("ID").equals(Area)) {
                 JAreas.remove(i);
                 i--;
             }

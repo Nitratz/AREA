@@ -23,9 +23,14 @@ public class PostANewMessage implements IAction {
         String token = facebook.getString("access_token");
         mFacebook.setOAuthAccessToken(new AccessToken(token));
         try {
-            mFacebook.postStatusMessage("Message posted from AREA\n-> " + msg);
+            mFacebook.postStatusMessage(msg);
         } catch (FacebookException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public String getType() {
+        return "Post un message sur son mur";
     }
 }

@@ -1,6 +1,5 @@
 package area;
 
-import com.sun.tracing.dtrace.ModuleName;
 import database.IUser;
 import database.MongoDBUser;
 import modules.IModules;
@@ -11,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 @RestController
@@ -41,9 +41,9 @@ public class UserController {
                 }
             }
             Application.LoggedUser.add(user);
-            obj.put("Success", true).put("Token", user.getToken());
+            obj.put("success", true).put("Token", user.getToken());
         } catch (Exception e) {
-            obj.put("Success", false).put("Error", e.getMessage());
+            obj.put("success", false).put("Error", e.getMessage());
         }
         return obj.toString();
     }
@@ -56,9 +56,9 @@ public class UserController {
 
         try {
             IUser user = MongoDBUser.createUser(email, password, fullname);
-            obj.put("Success", true);
+            obj.put("success", true);
         } catch (Exception e) {
-            obj.put("Success", false).put("Error", e.getMessage());
+            obj.put("success", false).put("Error", e.getMessage());
         }
         return obj.toString();
     }
@@ -71,17 +71,21 @@ public class UserController {
                                  @RequestParam(value = "triggerModuleName") String triggerModuleName) {
         for (IUser user : Application.LoggedUser) {
             if (user.getToken().equals(token)) {
-                JSONObject jobj = new JSONObject();
-                jobj.put("actionID", actionID);
-                jobj.put("triggerID", triggerID);
-                jobj.put("actionModuleName", actionModuleName);
-                jobj.put("triggerModuleName", triggerModuleName);
-                jobj.put("ID", new ObjectId().toString());
-                user.addArea(jobj.toString());
-                return "{success: true}";
+                JSONObject jService = new JSONObject(user.getServices());
+                if (jService.has(actionModuleName) && jService.has(triggerModuleName)) {
+                    JSONObject jobj = new JSONObject();
+                    jobj.put("actionID", actionID);
+                    jobj.put("triggerID", triggerID);
+                    jobj.put("actionModuleName", actionModuleName);
+                    jobj.put("triggerModuleName", triggerModuleName);
+                    jobj.put("ID", new ObjectId().toString());
+                    user.addArea(jobj.toString());
+                    return "{\"success\": true}";
+                }
+                return "{\"success\": false}";
             }
         }
-        return "{success: false}";
+        return "{\"success\": false}";
     }
 
     @RequestMapping("/ListArea")
@@ -92,7 +96,7 @@ public class UserController {
                 return jobj.toString();
             }
         }
-        return "{success: false}";
+        return "{\"success\": false}";
     }
 
     @RequestMapping("/DeleteArea")
@@ -101,10 +105,31 @@ public class UserController {
         for (IUser user : Application.LoggedUser) {
             if (user.getToken().contentEquals(token)) {
                 user.DeleteArea(AreaID);
-                return "{success: true}";
+                return "{\"success\": true}";
             }
         }
-        return "{success: false}";
+        return "{\"success\": false}";
+    }
+
+    @RequestMapping("/Token")
+    public static String tokenChecker(@RequestParam(value = "token") String token) {
+        for (IUser user : Application.LoggedUser) {
+            if (user.getToken().contentEquals(token)) {
+                return "{\"success\": true}";
+            }
+        }
+        return "{\"success\": false}";
+    }
+
+    @RequestMapping("/ListService")
+    public static String listService(@RequestParam(value = "token") String token) {
+        for (IUser user : Application.LoggedUser) {
+            if (user.getToken().contentEquals(token)) {
+                JSONObject jService = new JSONObject(user.getServices());
+                return new JSONObject().put("success", true).put("services", jService.names()).toString();
+            }
+        }
+        return "{\"success\": false}";
     }
 
     @RequestMapping("/GetAuthLink")
@@ -112,11 +137,16 @@ public class UserController {
                                      @RequestParam(value = "moduleName") String moduleName) {
         for (IUser user : Application.LoggedUser) {
             if (user.getToken().equals(token)) {
+                JSONObject jService = new JSONObject(user.getServices());
                 for (IModules module : Application.lModules) {
                     if (module.getModuleName().equals(moduleName))
-                        return module.getAuthLink(URLEncoder.encode("http://127.0.0.1:80/Module/"+ moduleName + "/Auth" + "?ID=" + token));
+                        try {
+                            return module.getAuthLink(URLEncoder.encode(Application.Addr + "Module/" + moduleName + "/Auth" + "?ID=" + token, "UTF-8"));
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                        }
                 }
-                return "{success: false}";
+                return "";
             }
         }
         return "";

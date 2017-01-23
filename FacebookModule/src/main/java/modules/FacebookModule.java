@@ -11,7 +11,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +25,7 @@ public class FacebookModule implements IModules {
     private static final String mAppId = "1251794458175503";
     private static final String mClientSecret = "eaa2e8f372b4e4b4fd91772c83d8dc8b";
     private static String mAuthTokenLink = "https://graph.facebook.com/v2.8/oauth/access_token?";
+    private JSONObject redirect_URI = new JSONObject();
 
     private OkHttpClient _client = new OkHttpClient();
 
@@ -48,14 +51,21 @@ public class FacebookModule implements IModules {
 
     @Override
     public String getAuthLink(String RedirectLink) {
+        String ID = RedirectLink.substring(RedirectLink.length() - 40);
         URI uri = URI.create(mFacebook.getOAuthAuthorizationURL(RedirectLink));
+        try {
+            redirect_URI.put(ID, URLDecoder.decode(RedirectLink, "UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         return uri.toASCIIString();
     }
 
     public String Auth(String AuthCode, String ID) {
-        String link = mAuthTokenLink
+        String link = null;
+        link = mAuthTokenLink
                 + "client_id=" + mAppId
-                + "&redirect_uri=" + URLEncoder.encode("http://127.0.0.1:80/Module/Facebook/Auth?ID=" + ID)
+                + "&redirect_uri=" + redirect_URI.getString(ID)
                 + "&client_secret=" + mClientSecret
                 + "&code=" + AuthCode;
         Request request = new Request.Builder()

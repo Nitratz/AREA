@@ -1,11 +1,12 @@
 *.iml
 .gradle
-/apk/
 /local.properties
 /.idea/workspace.xml
 /.idea/libraries
 .DS_Store
 /build
 /captures
-.externalNativeBuild
-/apk
+.idea/gradle.xml
+.idea/.name
+.idea/misc.xml
+.idea/runConfigurations.xml

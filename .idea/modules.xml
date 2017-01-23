@@ -8,10 +8,18 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/FacebookModule.iml" filepath="$PROJECT_DIR$/.idea/modules/FacebookModule.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/FacebookModule_main.iml" filepath="$PROJECT_DIR$/.idea/modules/FacebookModule_main.iml" group="FacebookModule" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/FacebookModule_test.iml" filepath="$PROJECT_DIR$/.idea/modules/FacebookModule_test.iml" group="FacebookModule" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/InstagramModule.iml" filepath="$PROJECT_DIR$/.idea/modules/InstagramModule.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/InstagramModule_main.iml" filepath="$PROJECT_DIR$/.idea/modules/InstagramModule_main.iml" group="InstagramModule" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/InstagramModule_test.iml" filepath="$PROJECT_DIR$/.idea/modules/InstagramModule_test.iml" group="InstagramModule" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/LinkedinModule.iml" filepath="$PROJECT_DIR$/.idea/modules/LinkedinModule.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/LinkedinModule_main.iml" filepath="$PROJECT_DIR$/.idea/modules/LinkedinModule_main.iml" group="LinkedinModule" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/LinkedinModule_test.iml" filepath="$PROJECT_DIR$/.idea/modules/LinkedinModule_test.iml" group="LinkedinModule" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/TwitterModule.iml" filepath="$PROJECT_DIR$/.idea/modules/TwitterModule.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/TwitterModule_main.iml" filepath="$PROJECT_DIR$/.idea/modules/TwitterModule_main.iml" group="TwitterModule" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/TwitterModule_test.iml" filepath="$PROJECT_DIR$/.idea/modules/TwitterModule_test.iml" group="TwitterModule" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/YammerPlugins.iml" filepath="$PROJECT_DIR$/.idea/modules/YammerPlugins.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/YammerPlugins_main.iml" filepath="$PROJECT_DIR$/.idea/modules/YammerPlugins_main.iml" group="YammerPlugins" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/YammerPlugins_test.iml" filepath="$PROJECT_DIR$/.idea/modules/YammerPlugins_test.iml" group="YammerPlugins" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/test/test.iml" filepath="$PROJECT_DIR$/.idea/modules/test/test.iml" group="test" />
     </modules>
   </component>
 </project>

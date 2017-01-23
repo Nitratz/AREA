@@ -1,56 +1,391 @@
 <!doctype html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="A front-end template that helps you build fast, modern mobile web apps.">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
     <title>Area : Action REAction</title>
-
-    <link rel="shortcut icon" href="images/favicon.png">
-
+    <link rel="shortcut icon" href="images/favicon.ico">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
+    <link href="https://fonts.googleapis.com/css?family=Orbitron" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="mdl-selectfield.min.css">
+    <link rel="stylesheet" href="material.min.css">
+    <script>
+        var api_addr = "127.0.0.1";
+    </script>
     <style>
-    #view-source {
-      position: fixed;
-      display: block;
-      right: 0;
-      bottom: 0;
-      margin-right: 40px;
-      margin-bottom: 40px;
-      z-index: 900;
-    }
+        #view-source {
+            position: fixed;
+            display: block;
+            right: 0;
+            bottom: 0;
+            margin-right: 40px;
+            margin-bottom: 40px;
+            z-index: 900;
+        }
     </style>
-  </head>
-  <body class="mdl-demo mdl-color--grey-100 mdl-color-text--grey-700 mdl-base">
+</head>
+
+<body class="mdl-demo mdl-color--grey-100 mdl-color-text--grey-700 mdl-base">
     <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-      <header class="mdl-layout__header mdl-layout__header--scroll mdl-color--primary">
-        <div class="mdl-layout--large-screen-only mdl-layout__header-row">
+        <!-- Start Header -->
+        <header class="mdl-layout__header mdl-layout__header--scroll mdl-color--primary">
+            <div class="mdl-layout--large-screen-only mdl-layout__header-row" id="logo">
+                <a href="#Accueil"><img src="images/logo.png"></a>
+                <h1>Area</h1>
+            </div>
+            <div class="mdl-layout__tab-bar mdl-js-ripple-effect mdl-color--primary-dark" id="menu">
+                <!--<a href="#Accueil" class="mdl-layout__tab is-active"></a>-->
+                <a onclick="LoadModulePage();" href="#modules" class="mdl-layout__tab is_active">Modules</a>
+                <a onclick="LoadAreaPage();" href="#area" class="mdl-layout__tab">Area</a>
+                <a id="adminbtn" style="display: none;" href="#admin" class="mdl-layout__tab">Admin</a>
+                <button id="connectionBtn" onclick="openConnectDialog(); return false;" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-shadow--4dp mdl-color--accent">
+                    <i class="material-icons" role="presentation">assignment_ind</i>
+                    <span class="visuallyhidden">Connection</span>
+                </button>
+            </div>
+        </header>
+        <!-- Start Content -->
+        <main class="mdl-layout__content">
+            <div class="mdl-layout__tab-panel is-active" id="Accueil">
+                <p>Welcome to ...</p>
+            </div>
+            <div class="mdl-layout__tab-panel" id="modules">
+            </div>
+            <div class="mdl-layout__tab-panel" id="area">
+                <section class="section--center mdl-grid mdl-shadow--2dp">
+                    <div class="mdl-card__supporting-text mdl-grid mdl-grid--no-spacing">
+                        <div class="mdl-selectfield mdl-js-selectfield mdl-cell mdl-cell--6-col">
+                            <select onchange="ModuleTriggerChange();" id="ModuleTriggerName" class="mdl-selectfield__select">
+                            <option></option>
+                        </select>
+                            <label class="mdl-selectfield__label" for="ModuleTriggerName">Module Trigger...</label>
+                        </div>
+                        <div class="mdl-selectfield mdl-js-selectfield mdl-cell mdl-cell--6-col">
+                            <select onchange="ModuleActionChange();" id="ModuleActionName" class="mdl-selectfield__select">
+                            <option></option>
+                        </select>
+                            <label class="mdl-selectfield__label" for="ModuleActionName">Module Action...</label>
+                        </div>
+                        <div class="mdl-selectfield mdl-js-selectfield mdl-cell mdl-cell--6-col">
+                            <select id="TriggerName" class="mdl-selectfield__select">
+                            <option></option>
+                        </select>
+                            <label class="mdl-selectfield__label" for="TriggerName">Trigger...</label>
+                        </div>
+                        <div class="mdl-selectfield mdl-js-selectfield mdl-cell mdl-cell--6-col">
+                            <select id="ActionName" class="mdl-selectfield__select">
+                            <option></option>
+                        </select>
+                            <label class="mdl-selectfield__label" for="ActionName">Action...</label>
+                        </div>
+                        <div class="mdl-card__actions">
+                            <a href="#" onclick="CreateArea();return false;" class="mdl-button">Créer Area</a>
+                        </div>
+                    </div>
+                </section>
+                <div style="padding-top: 32px;" id="AreaContainer">
+                </div>
+            </div>
+            <div class="mdl-layout__tab-panel" id="admin">
+                <section class="section--center mdl-grid">
+                    <div class="mdl-cell mdl-cell--12-col mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <input class="mdl-textfield__input" type="text" id="Path">
+                        <label class="mdl-textfield__label" for="Path">Fichier jar (Nom complet)...</label>
+                    </div>
+                    <div class="mdl-cell mdl-cell--12-col mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <input class="mdl-textfield__input" type="text" id="NameModules">
+                        <label class="mdl-textfield__label" for="NameModules">Nom du Modules... ex : modules.YammerModule</label>
+                    </div>
+                    <p><button onclick="LoadModule(); return false;" type="button" class="mdl-button">Load</button></p>
+                </section>
+            </div>
+        </main>
+        <!-- Start Dialog -->
+        <dialog id="connectDiag" class="mdl-dialog">
+            <div class="mdl-dialog__content">
+                <p>
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <input class="mdl-textfield__input" type="email" id="Email">
+                        <label class="mdl-textfield__label" for="Email">Email...</label>
+                    </div>
+                </p>
+                <p>
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <input class="mdl-textfield__input" type="password" id="Password">
+                        <label class="mdl-textfield__label" for="Password">Mot de passe...</label>
+                    </div>
+                </p>
+            </div>
+            <div class="mdl-dialog__actions mdl-dialog__actions--full-width">
+                <button onclick="CloseConnectDialog(); openCreateDialog(); return false;" type="button" class="mdl-button">Créer un compte</button>
+                <button onclick="ConnectBtn(); return false;" type="button" class="mdl-button">Connexion</button>
+                <button type="button" onclick="CloseConnectDialog(); return false;" class="mdl-button close">Annuler</button>
+            </div>
+        </dialog>
+        <!-- Other Dialog -->
+        <dialog id="CreateDiag" class="mdl-dialog">
+            <div class="mdl-dialog__content">
+                <p>
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <input class="mdl-textfield__input" type="text" id="C_Fullname">
+                        <label class="mdl-textfield__label" for="C_Fullname">Nom...</label>
+                    </div>
+                </p>
+                <p>
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <input class="mdl-textfield__input" type="email" id="C_Email">
+                        <label class="mdl-textfield__label" for="C_Email">Email...</label>
+                    </div>
+                </p>
+                <p>
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <input class="mdl-textfield__input" type="password" id="C_Password">
+                        <label class="mdl-textfield__label" for="C_Password">Mot de passe...</label>
+                    </div>
+                </p>
+            </div>
+            <div class="mdl-dialog__actions mdl-dialog__actions--full-width">
+                <button onclick="CreateBtn(); return false;" type="button" class="mdl-button">Créer</button>
+                <button type="button" onclick="CloseCreateDialog(); return false;" class="mdl-button close">Annuler</button>
+            </div>
+        </dialog>
+        <!-- End Dialog -->
+        <!-- Snack Bar -->
+        <div id="Notification" class="mdl-js-snackbar mdl-snackbar">
+            <div class="mdl-snackbar__text"></div>
+            <button class="mdl-snackbar__action" type="button"></button>
         </div>
-        <div class="mdl-layout--large-screen-only mdl-layout__header-row">
-          <h3>Area : Action REAction</h3>
-        </div>
-        <div class="mdl-layout--large-screen-only mdl-layout__header-row">
-        </div>
-        <div class="mdl-layout__tab-bar mdl-js-ripple-effect mdl-color--primary-dark">
-          <a href="#overview" class="mdl-layout__tab is-active">Accueil</a>
-          <a href="#features" class="mdl-layout__tab">Modules</a>
-          <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-shadow--4dp mdl-color--accent" id="add">
-            <i class="material-icons" role="presentation">assignment_ind</i>
-            <span class="visuallyhidden">Connection</span>
-          </button>
-        </div>
-      </header>
-      <main class="mdl-layout__content">
-        <div class="mdl-layout__tab-panel is-active" id="overview">
-        </div>
-        <div class="mdl-layout__tab-panel" id="features">
-        </div>
-      </main>
+        <!-- End Snack Bar -->
     </div>
     <script src="https://code.getmdl.io/1.2.1/material.min.js"></script>
-  </body>
+    <script src="script/mdl-selectfield.min.js"></script>
+    <script src="script/user.js"></script>
+    <script src="script/module.js"></script>
+    <script src="script/ui.js"></script>
+    <script src="script/sha1.js"></script>
+    <script>
+        $(document).ready(function () {
+            User.checkToken(MustHaveBtn);
+        });
+
+        var current_input = 0;
+
+        $(document).keydown((e) => {
+            switch (current_input) {
+                case 0:
+                    if (e.which == 38)
+                        current_input++;
+                    break;
+                case 1:
+                    if (e.which == 38)
+                        current_input++;
+                    else
+                        current_input = 0;
+                    break;
+                case 2:
+                    if (e.which == 40)
+                        current_input++;
+                    else
+                        current_input = 0;
+                    break;
+                case 3:
+                    if (e.which == 40)
+                        current_input++;
+                    else
+                        current_input = 0;
+                    break;
+                case 4:
+                    if (e.which == 37)
+                        current_input++;
+                    else
+                        current_input = 0;
+                    break;
+                case 5:
+                    if (e.which == 39)
+                        current_input++;
+                    else
+                        current_input = 0;
+                    break;
+                case 6:
+                    if (e.which == 37)
+                        current_input++;
+                    else
+                        current_input = 0;
+                    break;
+                case 7:
+                    if (e.which == 39)
+                        current_input++;
+                    else
+                        current_input = 0;
+                    break;
+                case 8:
+                    if (e.which == 66)
+                        current_input++;
+                    else
+                        current_input = 0;
+                    break;
+                case 9:
+                    if (e.which == 65)
+                        $("#adminbtn").show();
+                    else
+                        current_input = 0;
+                    break;
+            }
+        });
+
+        function ModuleTriggerChange() {
+            Module.getTriggers($("#ModuleTriggerName").val(), (ret) => {
+                $("#TriggerName").html("<option></option>");
+                ret.forEach((service, index) => {
+                    $("#TriggerName").append('<option value="' + index + '">' + service + "</option>");
+                });
+            });
+        }
+
+        function ModuleActionChange() {
+            Module.getAction($("#ModuleActionName").val(), (ret) => {
+                $("#ActionName").html("<option></option>");
+                ret.forEach((service, index) => {
+                    $("#ActionName").append('<option value="' + index + '">' + service + "</option>");
+                });
+            });
+        }
+
+        function LoadModulePage() {
+            ListModules();
+        }
+
+        function LoadAreaPage() {
+            ListArea();
+            ListServiceUser();
+        }
+
+        function MustHaveBtn(good) {
+            var C_Btn = $("#connectionBtn");
+            if (good) C_Btn.hide();
+            else C_Btn.show();
+        }
+
+        function CreateArea() {
+            Area.Create($("#ActionName").val(),
+                $("#TriggerName").val(),
+                $("#ModuleActionName").val(),
+                $("#ModuleTriggerName").val(),
+                (ret) => {
+                    if (ret) {
+                        Notify("Area créé avec succès", 1000);
+                    } else {
+                        Notify("Echec lors de la création de l'area", 1000);
+                    }
+                });
+        }
+
+        function deleteArea(id) {
+            Area.Delete(id, (ret) => {
+                if (ret) {
+                    Notify("Suppression reussie", 1000);
+                    ListArea();
+                } else {
+                    Notify("Echec de suppression", 1000);
+                }
+            });
+        }
+
+        function ListServiceUser() {
+            User.ListService((ret) => {
+                if (ret.success) {
+                    $("#ModuleTriggerName").html("<option></option>");
+                    $("#ModuleActionName").html("<option></option>");
+                    ret.services.forEach((service, index) => {
+                        $("#ModuleTriggerName").append("<option>" + service + "</option>");
+                        $("#ModuleActionName").append("<option>" + service + "</option>");
+                    });
+                }
+            })
+        }
+
+        function ListModules() {
+            $("#modules").empty();
+            Module.List((Modules) => {
+                Modules.forEach((ModuleName, i) => {
+                    User.GetAuthLink(ModuleName, (link) => {
+                        Module.getTriggers(ModuleName, (Triggers) => {
+                            Module.getAction(ModuleName, (Actions) => {
+                                var data = generateModuleCard(Triggers,
+                                    Actions,
+                                    ModuleName, link);
+                                $("#modules").append(data);
+                            });
+                        });
+                    })
+                });
+            })
+        }
+
+        function LoadModule() {
+            var path = $("#Path").val();
+            var NameModules = $("#NameModules").val();
+
+            Module.Load(NameModules, path, (ret) => {
+                console.log(ret);
+            });
+        }
+
+        function openConnectDialog() {
+            var dialog = document.querySelector('#connectDiag');
+            dialog.showModal();
+        }
+
+        function CloseConnectDialog() {
+            var dialog = document.querySelector('#connectDiag');
+            dialog.close();
+        }
+
+        function ConnectBtn() {
+            User.connentUser($('#Email').val(), $.sha1($('#Password').val()), onConnect);
+        }
+
+        function CreateBtn() {
+            User.createUser($('#C_Email').val(), $.sha1($('#C_Password').val()), $('#C_Fullname').val(), onCreate);
+        }
+
+        function onConnect(success) {
+            if (success) {
+                var dialog = document.querySelector('#connectDiag');
+                Notify("Connexion réussi", 1000);
+                User.checkToken(MustHaveBtn);
+                dialog.close();
+            } else {
+                Notify("Erreur lors de la connexion", 1000);
+            }
+        }
+
+        function onCreate(success) {
+            if (success) {
+                Notify("Compte créé avec succès", 1000);
+                var dialog = document.querySelector('#CreateDiag');
+                dialog.close();
+            } else {
+                Notify("La création a échoué", 1000);
+            }
+        }
+
+        function openCreateDialog() {
+            var dialog = document.querySelector('#CreateDiag');
+            dialog.showModal();
+        }
+
+        function CloseCreateDialog() {
+            var dialog = document.querySelector('#CreateDiag');
+            dialog.close();
+        }
+    </script>
+</body>
+
 </html>

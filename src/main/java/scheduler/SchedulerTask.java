@@ -24,7 +24,7 @@ public class SchedulerTask {
         Trigger trigger = newTrigger()
                 .withIdentity("t1", "g1").startNow()
                 .withSchedule(simpleSchedule()
-                        .withIntervalInSeconds(5)
+                        .withIntervalInSeconds(20)
                         .repeatForever()).build();
 
         mScheduler.scheduleJob(job, trigger);
