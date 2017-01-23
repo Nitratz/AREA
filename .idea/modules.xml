@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Area.iml" filepath="$PROJECT_DIR$/.idea/modules/Area.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Area_main.iml" filepath="$PROJECT_DIR$/.idea/modules/Area_main.iml" group="Area" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Area_test.iml" filepath="$PROJECT_DIR$/.idea/modules/Area_test.iml" group="Area" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/FacebookModule.iml" filepath="$PROJECT_DIR$/.idea/modules/FacebookModule.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/FacebookModule_main.iml" filepath="$PROJECT_DIR$/.idea/modules/FacebookModule_main.iml" group="FacebookModule" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/FacebookModule_test.iml" filepath="$PROJECT_DIR$/.idea/modules/FacebookModule_test.iml" group="FacebookModule" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/YammerPlugins.iml" filepath="$PROJECT_DIR$/.idea/modules/YammerPlugins.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/YammerPlugins_main.iml" filepath="$PROJECT_DIR$/.idea/modules/YammerPlugins_main.iml" group="YammerPlugins" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/YammerPlugins_test.iml" filepath="$PROJECT_DIR$/.idea/modules/YammerPlugins_test.iml" group="YammerPlugins" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/test/test.iml" filepath="$PROJECT_DIR$/.idea/modules/test/test.iml" group="test" />
+    </modules>
+  </component>
+</project>

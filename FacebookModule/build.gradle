@@ -1,0 +1,26 @@
+group 'com.ppapi.facebook'
+version '1.0'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+task fatJar(type: Jar) {
+    baseName = project.name + '-all'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+    manifest {
+        attributes 'Implementation-Title': 'Gradle Quickstart', 'Implementation-Version': version
+    }
+}
+
+dependencies {
+    compile('com.squareup.okhttp3:okhttp:3.5.0')
+    compile('org.json:json:20140107')
+    compile group: 'org.facebook4j', name: 'facebook4j-core', version: '2.3.1'
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+}
